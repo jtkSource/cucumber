@@ -1,9 +1,11 @@
 package jtk.steps.customersupport;
 
 import cucumber.api.PendingException;
+import cucumber.api.Transform;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import jtk.cucumber.transformers.UserTransformer;
 import jtk.site.pages.SupportPage;
 import jtk.users.User;
 import org.hamcrest.CoreMatchers;
@@ -20,8 +22,8 @@ public class CustomerSupportSteps {
     private User siteUser;
 
     @Given("^User \"([^\\\"]*)\" with premium membership \"([^\\\"]*)\" gets support page$")
-    public void user_gets_support_page(String user,boolean isPremium) {
-        siteUser = new  User(user);
+    public void user_gets_support_page(@Transform(UserTransformer.class) User user, boolean isPremium) {
+        siteUser = user;
         siteUser.setCurrentPage(new SupportPage());
         siteUser.setPremium(isPremium);
     }
